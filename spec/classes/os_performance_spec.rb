@@ -10,8 +10,29 @@ describe 'os_performance' do
 
         context "os_performance class without any parameters" do
           it { is_expected.to compile.with_all_deps }
-
           it { is_expected.to contain_class('os_performance::network') }
+          it { is_expected.to contain_class('os_performance::filesystem') }
+        end
+      end
+    end
+  end
+
+  context 'feature disabled' do
+    on_supported_os.each do |os, facts|
+      context "on #{os}" do
+        let(:params) do
+          {
+            ensure: 'absent'
+          }
+        end
+        let(:facts) do
+          facts
+        end
+
+        context "os_performance class without any parameters" do
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('os_performance::network') }
+          it { is_expected.to contain_class('os_performance::filesystem') }
         end
       end
     end

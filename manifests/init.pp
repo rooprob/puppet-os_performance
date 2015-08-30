@@ -6,16 +6,18 @@
 # Parameters
 # ----------
 #
-# * `sample parameter`
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# * `ensure`
+#   Ensure settings are made - a reboot maybe necessary if changed
 #
 class os_performance (
+  $ensure  = $os_performance::params::ensure
 ) inherits ::os_performance::params {
 
   # validate parameters here
-
-
-  include os_performance::network
-  include os_performance::filesystem
+  class { '::os_performance::network':
+    ensure => $ensure,
+  }
+  class { '::os_performance::filesystem':
+    ensure => $ensure,
+  }
 }
